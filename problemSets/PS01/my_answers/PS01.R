@@ -66,8 +66,10 @@ lower_error_bound <- sample_mean - error_bound
 ### Question 1: Part 2 
 
 hypothesized_mean = 100
-alpha_2 = 0.05 # we use 1 - alpha as this is a one-tail test
+alpha_2 = 0.05
 t_value = (sample_mean - hypothesized_mean) / (sample_std_dev / sqrt(length_y))
+
+## we use 1 - alpha as this is a one-tail test
 t_critical = qt(1 - alpha_2, df = length_y - 1)
 
 if (t_value > t_critical) {

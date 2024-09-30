@@ -123,6 +123,7 @@ A school counselor was curious about the average of IQ of the students in her sc
     To find the critical t value, we will compute alpha/2 and degrees of freedom from the t distribution table. 
 
         alpha = 1 - Confidence Interval = 1 - 0.90 
+        
         alpha/2 = 0.10/2 = 0.05
 
         degrees of freedom = n - 1 = 25 - 1 = 24
@@ -139,6 +140,35 @@ A school counselor was curious about the average of IQ of the students in her sc
     \[ 98.44 - 1.71 \times \left(\frac{13.09}{\sqrt{25}}\right) \] = \textbf{93.95}
 
   Therefore, we can say with \textbf{90\% confidence} that the mean lies within the range of \textbf{93.95 and 102.92}
+\vspace{3mm}
+
+Code for computing the above: 
+
+\begin{lstlisting}[language=R]
+
+y <- c(105, 69, 86, 100, 82, 111, 104, 110, 87, 108, 87, 90, 94, 113, 112, 98, 80, 97, 95, 111, 114, 89, 95, 126, 98)
+
+### histogram to check if normally distributed
+hist(y, col = "lightblue", main = "Histogram Distribution", xlab = "IQ scores")
+
+## finding input parameters for computing confidence intervals
+
+length_y <- length(y)
+sample_mean <- mean(y)
+sample_std_dev <- sd(y)
+alpha <- 1 - 0.90 
+alpha_by_2 <- alpha/2 ## as confidence interval is a two tail test
+
+## calculate t critical value and error bounds
+
+t <- qt(1 - (alpha_by_2), df = length_y - 1)
+error_bound <- t * (sample_std_dev/sqrt(length_y))
+
+## upper and loewr bounds for confidence intervals
+
+upper_error_bound <- sample_mean + error_bound
+lower_error_bound <- sample_mean - error_bound
+\end{lstlisting}
 \vspace{3mm}
 \item Solution for part 2
 
@@ -184,6 +214,24 @@ We are going to perform the hypothesis test using the following steps:
     Since the t critical value is greater than the t statistic value, we do not reject the null hypothesis. Therefore, we cannot say with 95\% confidence that our average student IQ is higher than 100.
     
 \end{enumerate}
+
+Code for above computations:
+
+\begin{lstlisting}[language=R]
+hypothesized_mean = 100
+alpha_2 = 0.05 
+t_value = (sample_mean - hypothesized_mean) / (sample_std_dev / sqrt(length_y))
+
+# we use 1 - alpha as this is a one-tail test
+
+t_critical = qt(1 - alpha_2, df = length_y - 1)
+
+if (t_value > t_critical) {
+  print("Reject the null hypothesis in favor of the alternative hypothesis")
+} else {
+  print("Do not reject the null hypothesis.")
+        }
+\end{lstlisting}
 
 \end{enumerate}
 \newpage
